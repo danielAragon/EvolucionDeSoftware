@@ -1,0 +1,14 @@
+#configuracion de acceso a BD
+spring:
+  jpa:
+    database: mysql
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+#estrategia de generacion de base de datos
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost/db_rasbus?useSSL=false 
+    username: root
+    password: root
+

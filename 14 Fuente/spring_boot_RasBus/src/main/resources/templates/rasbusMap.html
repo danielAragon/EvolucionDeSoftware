@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head"></head>
+<head>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" />
+	<style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 91vh;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+</head>
+<body>
+	<header th:replace="layout/layout :: header"></header>
+	<div id="map"></div>
+	<div class="modal fade" id="addParadero" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="exampleModalLabel">Agregar paradero</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <form>
+				<div class="modal-body">
+			        <div class="form-group">
+						<label for="paraderoID">Id:</label> <input type="text"
+							class="form-control" id="paraderoID" name="paraderoID"
+							placeholder="Ingrese el ID" />
+					</div>
+					<div class="form-group">
+						<label for="calle">Calle:</label> <input type="text"
+							class="form-control" id="calle" name="calle"
+							placeholder="Ingrese la calle" />
+					</div>
+					<div class="form-group">
+						<label for="descripcion">Descripcion:</label> <input type="text"
+							class="form-control" id="descripcion" name="descripcion"
+							placeholder="Ingrese la descripcion" />
+					</div>
+					<div class="form-group">
+						<label for="nombre">Nombre:</label> <input type="text"
+							class="form-control" id="nombre"  name="nombre"
+							placeholder="Ingrese el nombre" />
+					</div>
+					<div class="form-group">
+						<label for="distritoID">Distrito:</label> <input type="text"
+							class="form-control" id="distritoID" name="distritoID"
+							placeholder="Ingrese el distrito" />
+					</div>
+					<div class="form-group">
+						<label for="latitud">Latitud:</label> <input type="text"
+							class="form-control" id="latitud" name="latitud"
+							placeholder="Ingrese la latitud" />
+					</div>
+					<div class="form-group">
+						<label for="longitud">Longitud:</label> <input type="text"
+							class="form-control" id="longitud"  name="longitud"
+							placeholder="Ingrese la calle" />
+					</div>
+		      	</div>
+		      	<div class="modal-footer">
+		        	<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		        	<button type="button" id="save" class="btn btn-primary">Save changes</button>
+		    	</div>
+			</form>
+	    </div>
+	  </div>
+	</div>
+	<footer th:replace="layout/layout :: footer"></footer>
+	
+	<script>
+      var map;
+      var marker;
+      function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: -12.052285, lng: -77.090546},
+          zoom: 13
+        });
+        google.maps.event.addListener(map, "click", function (e) {
+			var latLng = e.latLng;
+			console.log("lat",latLng.lat());
+			console.log("lon",latLng.lng());
+			$("#addParadero").modal("show");
+			$("#latitud").val(latLng.lat());
+			$("#longitud").val(latLng.lng());
+		});
+
+		$.ajax({
+			url : "http://localhost:5000/rasbus-bc721/us-central1/getParaderos",
+			type: "GET",
+		}).done(function(data){
+			
+			data.forEach(function(paradero) {
+				console.log(paradero);
+				var myLatlng = new google.maps.LatLng(paradero.latitud,paradero.longitud);
+				marker = new google.maps.Marker({
+				    position: myLatlng,
+				    title:paradero.nombre
+				});
+
+				// To add the marker to the map, call setMap();
+				marker.setMap(map);	
+			})
+		}).fail(function(error){
+			console.log(error);
+		})
+        
+        $("#save").on("click", function() {
+            console.log('entro');
+        	var data = {
+                    paraderoID	: $("#paraderoID").val(),
+                    calle		: $("#calle").val(),
+                    descripcion	: $("#descripcion").val(),
+                    nombre		: $("#nombre").val(),
+                    distritoID	: $("#distrito").val(),
+                    latitud		: $("#latitud").val(),
+                    longitud	: $("#longitud").val()
+                    }
+    		$.ajax({
+    			url: " http://localhost:5000/rasbus-bc721/us-central1/setParadero",
+    			type: "POST",
+    			data: data
+    		}).done(function(){
+    			$("#addParadero").modal("hide");
+    			var myLatlng = new google.maps.LatLng(data.latitud,data.longitud);
+    			marker = new google.maps.Marker({
+    			    position: myLatlng,
+    			    title:data.nombre
+    			});
+    			marker.setMap(map);
+    		}).fail(function(e){
+    			console.log('fail', e);
+    		})
+        });
+      }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDvfDAGJlqFgql_xPlVaxeYt1hKKwdcaM8&callback=initMap"
+    async defer></script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head"></head>
+<head>
+<meta charset="UTF-8" />
+<title th:text="${titulo}">Insert title here</title>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" />
+<style type="text/css">
+	.bgimg {
+    	background-image: url('https://d2gg9evh47fn9z.cloudfront.net/800px_COLOURBOX15737043.jpg');
+    	//background-color: lightblue;
+	}
+</style>
+</head>
+<body class = "bgimg">dy>
+	<header th:replace="layout/layout :: header"></header>
+	<div class="container py-4">
+		<div class="card bg-light">
+			<h1 class="card-header" th:text="${title}"></h1>
+			<div class="card-body">
+				<div class="form-group">
+					<a class="btn btn-primary btn-xs" th:href="@{/personas/add}">Crear Persona</a>
+				</div>
+				<table class="table">
+					<thead class="table-dark">
+						<tr>
+							<th scope="col">ID</th>
+							<th scope="col">Nombre</th>
+							<th scope="col">Apellido</th>
+							<th scope="col">Celular</th>
+							<th scope="col">Telefono fijo</th>
+							<th scope="col">Fecha de nacimiento</th>
+							<th scope="col">Correo</th>
+							<th scope="col">Direccion</th>
+							<th scope="col">Acciones</th>
+						</tr>
+					</thead>
+					<tbody class="lista">
+						<tr th:each="persona: ${personas}" class="listalista">
+							<td th:text="${persona.personaID}"></td>
+							<td th:text="${persona.nombre}"></td>
+							<td th:text="${persona.apellido}"></td>
+							<td th:text="${persona.celular}"></td>
+							<td th:text="${persona.telefonoFijo}"></td>
+							<td th:text="${persona.fechaNacimiento}"></td>
+							<td th:text="${persona.correo}"></td>
+							<td th:text="${persona.direccion}"></td>
+							<td><a th:href="@{/personas/edit/__${persona.personaID}__}">Edit</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<button class="btn btn-primary" id="btn_prev">Prev</button>
+				<span class="noPage"></span>
+				<button class="btn btn-primary" id="btn_next">Next</button>
+			</div>
+		</div>
+	</div>
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>

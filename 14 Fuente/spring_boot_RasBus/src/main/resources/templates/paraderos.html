@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head"></head>
+<head>
+<meta charset="UTF-8" />
+<title th:text="${titulo}">Insert title here</title>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" />
+<style type="text/css">
+	.bgimg {
+    	background-image: url('https://d2gg9evh47fn9z.cloudfront.net/800px_COLOURBOX15737043.jpg');
+    	//background-color: lightblue;
+	}
+</style>
+</head>
+<body class = "bgimg">
+	<header th:replace="layout/layout :: header"></header>
+
+	<div class="container py-4">
+
+		<div class="card bg-light">
+			<h1 class="card-header" th:text="${title}"></h1>
+			<div class="card-body">
+				<div class="form-group">
+					<a class="btn btn-primary btn-xs" th:href="@{/paraderos/add}">Crear Paradero</a>
+				</div>
+				<table class="table">
+					<thead class="table-dark">
+						<tr>
+							<th scope="col">id</th>
+							<th scope="col">Paradero</th>
+							<th scope="col">Calle</th>
+							<th scope="col">Distrito</th>
+							<th scope="col">Accion</th>
+						</tr>
+					</thead>
+					<tbody class="lista">
+						<tr th:each="paradero: ${paraderos}" class="listalista">
+							<td th:text="${paradero.paraderoID}"></td>
+							<td th:text="${paradero.nombre}"></td>
+							<td th:text="${paradero.calle}"></td>
+							<td th:text="${paradero.distritoID.nombre}"></td>
+							<td><a
+								th:href="@{/paraderos/edit/__${paradero.paraderoID}__}">Edit</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<button class="btn btn-primary" id="btn_prev">Prev</button>
+				<span class="noPage"></span>
+				<button class="btn btn-primary" id="btn_next">Next</button>
+			</div>
+		</div>
+	</div>
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>

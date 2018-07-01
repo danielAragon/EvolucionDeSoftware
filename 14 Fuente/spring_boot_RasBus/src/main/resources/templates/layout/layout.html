@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head">
+<meta charset="UTF-8" />
+<title th:text="'Spring Boot: MVC + Thymeleaf + Data JPA - ' + ${titulo}"></title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" />
+<style type="text/css">
+	.bgimg {
+    	background-image: url('https://d2gg9evh47fn9z.cloudfront.net/800px_COLOURBOX15737043.jpg');
+    	//background-color: lightblue;
+	}
+</style>
+<!-- <link rel="stylesheet" type="text/css" href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.4/css/bootstrap.min.css" th:href="@{/webjars/bootstrap/3.3.4/css/bootstrap.min.css}" />
+<link rel="stylesheet" type="text/css" href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.4/css/jquery.min.css" th:href="@{/css/jquery-ui.min.css}" />-->
+<!-- <link rel="stylesheet" href="../static/css/bootstrap.min.css">
+<link rel="stylesheet" href="../static/css/jquery-ui.min.css"> -->
+
+</head>
+<body>
+
+	<header th:fragment="header">
+		<nav class="navbar-expand-md navbar navbar-dark bg-dark">
+			<div class="collapse navbar-collapse">
+				<a class="navbar-brand" href="#">RasBus</a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse"
+					aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<ul class="navbar-nav">
+					<li class="nav-item"><a class="nav-link" href="#"
+						th:href="@{/buses}">Buses</a></li>
+					<li class="nav-item"><a class="nav-link" href="#"
+						th:href="@{/rutas}">Rutas</a></li>
+					<li class="nav-item"><a class="nav-link" href="#"
+						th:href="@{/paraderos}">Paraderos</a></li>
+					<li class="nav-item"><a class="nav-link" href="#" 
+						th:href="@{/trabajadores}">Trabajadores</a></li>
+					<li class="nav-item"><a class="nav-link" href="#" 
+						th:href="@{/personas}">Personas</a></li>
+					<li class="nav-item"><a class="nav-link" href="#"
+						th:href="@{/mapa}">Ver mapa</a></li>
+					<li class="nav-item"><a class="nav-link" href="#"
+						th:href="@{/}">Paradero por Ruta</a></li>
+				</ul>
+			</div>
+		</nav>
+
+		<div class="alert alert-success" th:if="${success != null}"
+			th:text="${success}"></div>
+		<div class="alert alert-danger" th:if="${error != null}"
+			th:text="${error}"></div>
+		<div class="alert alert-warning" th:if="${warning != null}"
+			th:text="${warning}"></div>
+		<div class="alert alert-info" th:if="${info != null}"
+			th:text="${info}"></div>
+	</header>
+
+	<div class="container "></div>
+	<!-- 
+		
+		<img th:src="@{/images/spring.png}" alt="Spring logo" />
+		<p>
+			Powered by  <a href="https://www.linkedin.com/in/henrymendozapuerta/" target=_blank>HAMP</a>.&copy; Company 2018.
+		</p>	-->
+		
+	<footer th:fragment="footer" class="container">	
+		<!-- <script src="../js/jquery-3.2.1.min.js"></script>
+		<script src="../js/bootstrap.min.js"></script>
+		<script src="../js/jquery-ui.min.js"></script>
+		<script src="../js/main.js"></script>-->
+		<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+		<script type="text/javascript">
+			console.log($(".listalista").toArray());
+			var current_page = 1;
+			var records_per_page = 5;
+
+			var obj = $(".listalista");
+
+			$("#btn_prev").on("click", function() {
+				if(current_page > 1) {
+					current_page--;
+					changePage(current_page);
+				}
+			});
+
+			$("#btn_next").on("click", function() {
+				if (current_page < numPages()) {
+			        current_page++;
+			        changePage(current_page);
+			    }
+			});
+
+			function numPages()
+			{
+			    return Math.ceil(obj.length / records_per_page);
+			}
+
+			function changePage(page)
+			{
+			    var btn_next = $("#btn_next");
+			    var btn_prev = $("#btn_prev");
+			    var listing_table = $(".lista");
+			    var page_span = $(".noPage");
+			    console.log(listing_table);
+			 
+			    // Validate page
+			    if (page < 1) page = 1;
+			    if (page > numPages()) page = numPages();
+
+			    listing_table.html("");
+
+			    for (var i = (page-1) * records_per_page; i < (page * records_per_page) && i < obj.length; i++) {
+				    console.log(obj[i]);
+					listing_table.append(obj[i]);
+			        //listing_table.innerHTML += objJson[i].adName + "<br>";
+			    }
+			    page_span.html(page);
+			    //page_span.innerHTML = page + "/" + numPages();
+
+			    if (page == 1) {
+			        btn_prev.prop('disabled',true);
+			    } else {
+			        btn_prev.prop('disabled',false);
+			    }
+
+			    if (page == numPages()) {
+			        btn_next.prop('disabled',true);
+			    } else {
+			        btn_next.prop('disabled',false);
+			    }
+			}
+
+			window.onload = function() {
+			    changePage(1);
+			};
+		</script>
+	</footer> 
+	
+</body>
+</html>

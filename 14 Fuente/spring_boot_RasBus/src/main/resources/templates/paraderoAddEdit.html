@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<title th:text="${titulo}">Insert title here</title>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" />
+<style type="text/css">
+	.bgimg {
+    	background-image: url('https://d2gg9evh47fn9z.cloudfront.net/800px_COLOURBOX15737043.jpg');
+    	//background-color: lightblue;
+	}
+</style>
+</head>
+<body class = "bgimg">
+
+	<header th:replace="layout/layout :: header"></header>
+
+	<div class="container py-4">
+
+		<div class="card bg-light">
+			<h1 class="card-header" th:text="${title}"></h1>
+			<div class="card-body">
+
+				<form th:action="@{/paradero/add}" th:object="${paradero}" method="post">
+
+					<div class="form-group">
+						<label for="id">Id:</label> <input type="text"
+							class="form-control" id="rutaID" th:field="*{paraderoID}"
+							placeholder="Ingrese el ID" />
+					</div>
+					
+
+					<div class="form-group">
+						<input type="submit" th:value="${submitValue}"
+							class="btn btn-primary" />
+					</div>
+					
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

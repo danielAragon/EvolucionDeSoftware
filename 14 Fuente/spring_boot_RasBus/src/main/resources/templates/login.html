@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head">
+<head>
+<meta charset="UTF-8" />
+<title th:text="${titulo}">Insert title here</title>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" />
+</head>
+</head>
+<body class="text-center">
+<header th:fragment="header">
+		<nav class="navbar-expand-md navbar navbar-dark bg-dark">
+			<div class="collapse navbar-collapse">
+				<a class="navbar-brand" href="#">RasBus</a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse"
+					aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+			</div>
+		</nav>
+	</header>	
+	<div class="container">
+		<div class="row">
+			<div class="col-md-4 offset-md-4">
+				  <img src="//i.imgur.com/BzoxqX7.jpg" height="300" >
+				  <form class="form-signin" th:action="@{/login/signin}" method="post">
+			      <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+			      <label for="inputEmail" class="sr-only">Email address</label>
+			      <input type="text" id="inputEmail" class="form-control" placeholder="Username" name="username"/>
+			      <label for="inputPassword" class="sr-only">Password</label>
+			      <input type="password" id="inputPassword" class="form-control" placeholder="Password" name="password"/>
+			      <div class="checkbox mb-3">
+			      	<label>
+			        	<input type="checkbox" value="remember-me"> Remember me
+			      	</label>
+			      </div>
+			      <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+			      <p class="mt-5 mb-3 text-muted">&copy; 2017-2018</p>
+			    </form>
+			</div>
+		</div>
+	</div>
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>
